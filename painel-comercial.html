@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Painel Comercial · Leads</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{color-scheme:dark;
+    --navy:#0A1A2F; --navy-2:#0E2038; --navy-3:#122A48;
+    --green:#19C37D; --green-strong:#12A867; --green-soft:#0E3B2C;
+    --white:#FFFFFF; --ink:#0B1B2E; --ink-2:#33475B; --ink-3:#5A6B7E;
+    --slate:#93A6BC; --slate-2:#6E829A; --line:rgba(255,255,255,.09); --card-line:#EAEEF3;
+    box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px)}
+  *,*::before,*::after{box-sizing:border-box}
+  body{margin:0; font-family:'Inter',system-ui,sans-serif; background:var(--navy); color:#EAF1F8; line-height:1.5; -webkit-font-smoothing:antialiased; min-height:100vh}
+  h1,h2,h3{margin:0; letter-spacing:-.02em; font-weight:800; line-height:1.15}
+  p{margin:0}
+  .wrap{max-width:1040px; margin:0 auto; padding:26px 20px 60px}
+  .num{font-weight:800; letter-spacing:-.02em; font-variant-numeric:tabular-nums}
+
+  /* header */
+  .top{display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; padding-bottom:22px; border-bottom:1px solid var(--line); margin-bottom:26px}
+  .brand{display:flex; align-items:center; gap:13px}
+  .logo-mark{width:44px; height:44px; border-radius:12px; background:var(--green); display:grid; place-items:center; color:#052316; font-weight:900; font-size:16px; box-shadow:0 6px 18px rgba(25,195,125,.32)}
+  .brand h1{font-size:20px; font-weight:800}
+  .brand .sub{font-size:12.5px; color:var(--slate); margin-top:3px}
+  .btn{display:inline-flex; align-items:center; gap:9px; background:var(--green); color:#052316; font-family:inherit; font-weight:700; font-size:14px; border:none; border-radius:999px; padding:12px 20px; cursor:pointer}
+  .btn:hover{background:var(--green-strong)}
+
+  .sec-label{font-size:12px; font-weight:800; letter-spacing:.09em; color:var(--slate-2); text-transform:uppercase; margin:34px 0 14px}
+
+  /* funil topo */
+  .funil{display:grid; grid-template-columns:repeat(3,1fr); gap:14px}
+  .fcard{background:var(--white); border-radius:16px; padding:22px; color:var(--ink); position:relative}
+  .fcard.hi{background:var(--green); color:#052316}
+  .fcard .lab{font-size:12px; font-weight:800; letter-spacing:.05em; text-transform:uppercase; color:var(--ink-2)}
+  .fcard.hi .lab{color:#08432b}
+  .fcard .big{font-size:44px; margin:10px 0 6px}
+  .fcard .foot{font-size:13px; color:var(--ink-2)}
+  .fcard.hi .foot{color:#0a4e33; font-weight:600}
+  .arrow{position:absolute; right:-11px; top:50%; transform:translateY(-50%); z-index:2; color:var(--slate-2)}
+
+  /* oportunidades */
+  .opp-head{display:flex; align-items:baseline; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:8px}
+  .opp-head h2{font-size:22px}
+  .opp-head .hot{font-size:24px; font-weight:800; color:var(--green); letter-spacing:-.02em}
+  .opp-desc{font-size:14px; color:var(--slate); max-width:70ch; margin-bottom:18px}
+  .heat{display:grid; grid-template-columns:repeat(4,1fr); gap:14px}
+  .hcard{border-radius:16px; padding:20px; color:#fff}
+  .hcard .hl{display:flex; align-items:center; gap:8px; font-size:13px; font-weight:700}
+  .hcard .dot{width:9px; height:9px; border-radius:50%; background:#fff}
+  .hcard .big{font-size:38px; margin:8px 0 4px}
+  .hcard .sub{font-size:12px; opacity:.9}
+  .h1c{background:#17B978} .h1c{color:#052316}
+  .h2c{background:#12925F}
+  .h3c{background:#3C6E62}
+  .h4c{background:#465868}
+
+  /* recomendação */
+  .reco{background:var(--navy-2); border:1px solid var(--line); border-left:3px solid var(--green); border-radius:12px; padding:18px 20px; margin:22px 0 18px; font-size:14px; color:#C4D2E0; line-height:1.6}
+  .reco b{color:var(--green)}
+
+  /* nível de conversa */
+  .conv{background:var(--white); border-radius:18px; padding:22px; color:var(--ink); margin-top:8px}
+  .conv h3{font-size:15px; margin-bottom:3px}
+  .conv .s{font-size:12.5px; color:var(--ink-2); margin-bottom:20px}
+  .convrow{display:grid; grid-template-columns:130px 1fr auto; gap:14px; align-items:center; margin-bottom:16px}
+  .convrow .who{display:flex; align-items:flex-start; gap:8px; font-size:13px; color:var(--ink)}
+  .convrow .who .cd{width:9px; height:9px; border-radius:50%; margin-top:4px; flex:none}
+  .track{height:12px; background:#EEF2F6; border-radius:999px; overflow:hidden}
+  .track i{display:block; height:100%; border-radius:999px}
+  .convrow .val{font-weight:800; font-size:16px; color:var(--ink)} .convrow .val small{font-size:11px; color:var(--ink-2); font-weight:600; display:block; text-align:right}
+  .conv .note{font-size:13px; color:var(--ink-2); line-height:1.6; margin-top:6px}
+  .conv .note b{color:var(--ink)}
+
+  /* pré-cadastros por período */
+  .periodo{display:grid; grid-template-columns:repeat(5,1fr); gap:14px}
+  .pcard{background:var(--white); border-radius:16px; padding:20px; color:var(--ink)}
+  .pcard.hi{background:var(--green); color:#052316}
+  .pcard .lab{font-size:11.5px; font-weight:800; letter-spacing:.05em; text-transform:uppercase; color:var(--ink-2)}
+  .pcard.hi .lab{color:#08432b}
+  .pcard .big{font-size:34px; margin-top:8px}
+
+  /* efetivados */
+  .efet{display:grid; grid-template-columns:1.4fr 1fr; gap:16px}
+  .chartcard{background:var(--white); border-radius:18px; padding:22px; color:var(--ink)}
+  .chartcard h3{font-size:15px; margin-bottom:16px}
+  .citiescard{background:var(--white); border-radius:18px; padding:22px; color:var(--ink)}
+  .citiescard h3{font-size:15px; margin-bottom:18px}
+  .city{display:grid; grid-template-columns:120px 1fr auto; gap:12px; align-items:center; margin-bottom:13px}
+  .city .cn{font-size:13px; color:var(--ink); line-height:1.2}
+  .city .ct{height:9px; background:#EEF2F6; border-radius:999px; overflow:hidden}
+  .city .ct i{display:block; height:100%; background:var(--green); border-radius:999px}
+  .city .cv{font-size:14px; font-weight:800; color:var(--ink)}
+
+  .foot{text-align:center; color:var(--slate-2); font-size:12.5px; margin-top:34px}
+
+  @media (max-width:860px){
+    .funil{grid-template-columns:1fr} .arrow{display:none}
+    .heat{grid-template-columns:1fr 1fr}
+    .periodo{grid-template-columns:1fr 1fr}
+    .efet{grid-template-columns:1fr}
+    .convrow{grid-template-columns:110px 1fr auto}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="top">
+    <div class="brand">
+      <span class="logo-mark">TM</span>
+      <div>
+        <h1>Painel Comercial (Leads) · Pernambuco</h1>
+        <div class="sub">Atualizado em 21/09/2026, 15:07</div>
+      </div>
+    </div>
+    <button class="btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M4 21h16"/></svg>Baixar planilha</button>
+  </div>
+
+  <div class="sec-label">Funil de conversão</div>
+  <div class="funil">
+    <div class="fcard"><div class="lab">Conversaram no WhatsApp</div><div class="big num">876</div><div class="foot">pessoas que iniciaram conversa com o agente</div>
+      <svg class="arrow" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m9 6 6 6-6 6"/></svg></div>
+    <div class="fcard hi"><div class="lab">Pré-cadastraram</div><div class="big num">316</div><div class="foot">36% de conversão</div>
+      <svg class="arrow" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m9 6 6 6-6 6"/></svg></div>
+    <div class="fcard"><div class="lab">Não pré-cadastraram</div><div class="big num">560</div><div class="foot">oportunidades ainda em aberto</div></div>
+  </div>
+
+  <div class="sec-label" style="margin-bottom:0"></div>
+  <div class="opp-head" style="margin-top:34px">
+    <h2>Oportunidades a recuperar</h2>
+    <span class="hot">174 leads quentes</span>
+  </div>
+  <p class="opp-desc">Pessoas que conversaram mas não finalizaram o pré-cadastro, separadas pelo nível de interesse demonstrado na conversa.</p>
+  <div class="heat">
+    <div class="hcard h1c"><div class="hl"><span class="dot" style="background:#052316"></span>Muito quentes</div><div class="big num">63</div><div class="sub">16+ mensagens · alto interesse</div></div>
+    <div class="hcard h2c"><div class="hl"><span class="dot"></span>Quentes</div><div class="big num">111</div><div class="sub">8 a 15 mensagens</div></div>
+    <div class="hcard h3c"><div class="hl"><span class="dot"></span>Mornos</div><div class="big num">156</div><div class="sub">3 a 7 mensagens</div></div>
+    <div class="hcard h4c"><div class="hl"><span class="dot"></span>Frios</div><div class="big num">230</div><div class="sub">1 a 2 mensagens · abriram e saíram</div></div>
+  </div>
+
+  <div class="reco">Recomendação: priorizar um follow-up ativo com os <b>174 leads quentes</b> (8+ mensagens), que demonstraram interesse real e representam a recuperação mais provável. Vale lembrar que parte desses contatos pode não buscar revenda, e sim <b>compra no varejo</b>, por isso a abordagem deve sondar o interesse antes de tratar como revendedora. Os 156 mornos entram numa segunda onda; os 230 frios podem receber uma mensagem de reativação de baixo custo.</div>
+  <button class="btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M4 21h16"/></svg>Baixar leads quentes (telefones)</button>
+
+  <div class="conv" style="margin-top:22px">
+    <h3>Nível de conversa antes de decidir</h3>
+    <div class="s">Média de mensagens trocadas com o agente, comparando os dois grupos</div>
+    <div class="convrow">
+      <div class="who"><span class="cd" style="background:var(--green)"></span>Quem se pré-cadastrou</div>
+      <div class="track"><i style="width:100%; background:var(--green)"></i></div>
+      <div class="val">27.2<small>mensagens</small></div>
+    </div>
+    <div class="convrow">
+      <div class="who"><span class="cd" style="background:#9FB0C2"></span>Quem não se pré-cadastrou</div>
+      <div class="track"><i style="width:27%; background:#9FB0C2"></i></div>
+      <div class="val">7.4<small>mensagens</small></div>
+    </div>
+    <div class="note">Quem se pré-cadastrou trocou cerca de <b>3.7x mais mensagens</b> com o agente antes de decidir. Ou seja: quanto mais a pessoa conversa, maior a chance de completar o pré-cadastro, por isso os leads que já conversaram bastante e não fecharam são os mais promissores para o follow-up.</div>
+  </div>
+
+  <div class="sec-label">Pré-cadastros por período</div>
+  <div class="periodo">
+    <div class="pcard"><div class="lab">Último dia</div><div class="big num">17</div></div>
+    <div class="pcard"><div class="lab">7 dias</div><div class="big num">190</div></div>
+    <div class="pcard"><div class="lab">15 dias</div><div class="big num">313</div></div>
+    <div class="pcard"><div class="lab">30 dias</div><div class="big num">389</div></div>
+    <div class="pcard hi"><div class="lab">Total até agora</div><div class="big num">422</div></div>
+  </div>
+
+  <div class="sec-label">Pré-cadastros efetivados</div>
+  <div class="efet">
+    <div class="chartcard">
+      <h3>Pré-cadastros por dia · 30 dias</h3>
+      <svg id="chart" viewBox="0 0 660 240" width="100%" preserveAspectRatio="xMidYMid meet"></svg>
+    </div>
+    <div class="citiescard">
+      <h3>Principais cidades</h3>
+      <div id="cities"></div>
+    </div>
+  </div>
+
+  <div class="foot">Dados em tempo real · painel comercial</div>
+</div>
+
+<script>
+  // gráfico de área
+  (function(){
+    var vals=[0,0,1,0,1,2,0,1,2,8,20,27,18,22,24,28,33,30,20,8,2,5,9,12,40,63,45,15,8,22];
+    var W=660,H=240,pl=34,pr=12,pt=16,pb=28;
+    var maxY=70;
+    var iw=W-pl-pr, ih=H-pt-pb;
+    var pts=vals.map(function(v,i){ var x=pl+(i/(vals.length-1))*iw; var y=pt+ih-(v/maxY)*ih; return [x,y]; });
+    function path(pts){ var d='M'+pts[0][0]+' '+pts[0][1]; for(var i=1;i<pts.length;i++){ var p0=pts[i-1],p1=pts[i]; var cx=(p0[0]+p1[0])/2; d+=' C'+cx+' '+p0[1]+' '+cx+' '+p1[1]+' '+p1[0]+' '+p1[1]; } return d; }
+    var line=path(pts);
+    var area=line+' L'+pts[pts.length-1][0]+' '+(pt+ih)+' L'+pts[0][0]+' '+(pt+ih)+' Z';
+    var svg='';
+    // grid y
+    [0,10,20,30,40,50,60,70].forEach(function(g){ var y=pt+ih-(g/maxY)*ih; svg+='<line x1="'+pl+'" y1="'+y+'" x2="'+(W-pr)+'" y2="'+y+'" stroke="#EEF2F6"/>'; svg+='<text x="'+(pl-8)+'" y="'+(y+4)+'" text-anchor="end" font-size="11" fill="#8A9AAC">'+g+'</text>'; });
+    // x labels
+    var labs=['23/08','27/08','31/08','04/09','08/09','12/09','16/09','20/09'];
+    labs.forEach(function(l,i){ var x=pl+(i/(labs.length-1))*iw; svg+='<text x="'+x+'" y="'+(H-8)+'" text-anchor="middle" font-size="11" fill="#8A9AAC">'+l+'</text>'; });
+    svg+='<path d="'+area+'" fill="rgba(25,195,125,.16)"/>';
+    svg+='<path d="'+line+'" fill="none" stroke="#12A867" stroke-width="2.5"/>';
+    document.getElementById('chart').innerHTML=svg;
+  })();
+  // cidades
+  (function(){
+    var cities=[['Recife',107],['Jaboatão dos Guararapes',43],['Paulista',43],['(incompleto)',39],['Olinda',31],['Maceió',12],['São Lourenço da Mata',10]];
+    var max=107;
+    document.getElementById('cities').innerHTML=cities.map(function(c){
+      return '<div class="city"><div class="cn">'+c[0]+'</div><div class="ct"><i style="width:'+Math.round(c[1]/max*100)+'%"></i></div><div class="cv">'+c[1]+'</div></div>';
+    }).join('');
+  })();
+</script>
+</body>
+</html>
